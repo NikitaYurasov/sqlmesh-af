@@ -1,0 +1,75 @@
+[project]
+name = "sqlmesh-af"
+version = "0.1.0"
+description = "Distributed run of sqlmesh models using Airflow"
+authors = [
+    { name = "Nikita Yurasov", email = "n.yurasov@yahoo.com" }
+]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "sqlmesh[postgres]<=0.204.0",
+    "apache-airflow>=2.10,<3",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.12,<0.13",
+    "mypy ==1.7.1",
+    "ipython",
+    "pytest",
+    "pre-commit",
+]
+
+[tool.hatch.build]
+packages = ["sqlmesh_af"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+# https://beta.ruff.rs/docs
+line-length = 120
+lint.select = [
+    # https://beta.ruff.rs/docs/rules
+    "F", # pyflakes
+    "E", # pycodestyle (errors)
+    "W", # pycodestyle (warnings) eg. trailing/leading whitespaces
+    "Q", # quotes
+    "I001", # unsorted imports (isort)
+    "TID", # tidy-imports
+]
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "single"
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.lint.isort]
+# https://beta.ruff.rs/docs/settings/#isort
+
+[tool.ruff.format]
+quote-style = "single"
+docstring-code-format = true
+
+[tool.mypy]
+# docs: https://mypy.readthedocs.io/en/stable/config_file.html
+python_version = "3.10"
+warn_return_any = false
+warn_unused_configs = true
+warn_unused_ignores = true
+ignore_errors = false
+follow_imports = "silent"
+ignore_missing_imports = true
+strict = false
+no_implicit_optional = false
+disable_error_code = ["import-untyped"]
+plugins = "pydantic.mypy"
+
+# ignore mypy errors in tests
+[[tool.mypy.overrides]]
+module = "tests.*"
+ignore_errors = true

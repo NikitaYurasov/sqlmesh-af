@@ -1,0 +1,11 @@
+gateways:
+  local:
+    connection:
+      type: duckdb
+      database: dags/sqlmesh_project/db/sushi-example.db
+
+default_gateway: local
+
+model_defaults:
+  dialect: duckdb
+  start: '1 day ago'
